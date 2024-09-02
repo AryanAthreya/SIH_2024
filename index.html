@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Disease Predictor</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Add the styles directly here or in your styles.css file */
+        .camera-container {
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+        }
+
+        video, canvas, img {
+            width: 100%;
+            border-radius: 10px;
+            margin-top: 10px;
+            display: block;
+        }
+
+        canvas, img {
+            display: none;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #downloadButton {
+            display: none;
+        }
+
+        input[type="file"] {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <a href="#" class="logo">
+                <img src="tree-icon.svg" alt="Logo" class="icon">
+                <span>Crop Disease Predictor</span>
+            </a>
+            <nav class="nav">
+                <a href="#">Home</a>
+                <a href="#">Predict</a>
+                <button class="button icon-button">
+                    <img src="plus-icon.svg" alt="Add" class="icon">
+                </button>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </nav>
+        </header>
+        <main>
+            <section class="hero">
+                <div class="hero-content">
+                    <h1>Protect Your Crops</h1>
+                    <p>Detect and prevent crop diseases with our AI-powered solution.</p>
+                    <a href="#" class="button hero-button">
+                        <img src="camera-icon.svg" alt="Analyze Image" class="icon">
+                        Analyze Image
+                    </a>
+                </div>
+            </section>
+            
+            <!-- Camera and Image Upload Section -->
+            <section class="camera-container">
+                <h2>Take or Upload Photo</h2>
+                <video id="video" autoplay playsinline></video>
+                <canvas id="canvas"></canvas>
+                <img id="capturedImage" alt="Captured Image">
+                <br>
+                <input type="file" accept="image/*" id="uploadImage">
+                <button id="captureButton">Capture Image</button>
+                <a id="downloadButton" download="captured_image.png">Download Image</a>
+            </section>
+            
+            <section class="features">
+                <h2>Crop Disease Prediction</h2>
+                <p>Our AI-driven system analyzes crop images and environmental data to predict potential disease outbreaks. Get actionable insights and treatment recommendations to protect your crops.</p>
+                <div class="cards">
+                    <div class="card">
+                        <img src="placeholder.svg" alt="Crop Image" class="card-img">
+                        <div class="card-content">
+                            <h4>Detect Crop Diseases</h4>
+                            <p>Upload an image of your crop and our system will analyze it for potential diseases.</p>
+                            <button class="button outline-button">Analyze</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="placeholder.svg" alt="Environmental Data" class="card-img">
+                        <div class="card-content">
+                            <h4>Monitor Environmental Factors</h4>
+                            <p>Our system tracks weather, soil, and other environmental data to predict disease outbreaks.</p>
+                            <button class="button outline-button">View Data</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="placeholder.svg" alt="Treatment Recommendations" class="card-img">
+                        <div class="card-content">
+                            <h4>Get Treatment Recommendations</h4>
+                            <p>Our system provides tailored treatment recommendations to help you mitigate crop disease risks.</p>
+                            <button class="button outline-button">View Recommendations</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="footer">
+            <a href="#" class="footer-link">
+                <img src="home-icon.svg" alt="Home" class="icon">
+                Home
+            </a>
+            <a href="#" class="footer-link">
+                <img src="save-icon.svg" alt="Predict" class="icon">
+                Predict
+            </a>
+            <button class="button icon-button">
+                <img src="plus-icon.svg" alt="Add" class="icon">
+            </button>
+            <a href="#" class="footer-link">
+                <img src="info-icon.svg" alt="About" class="icon">
+                About
+            </a>
+            <a href="#" class="footer-link">
+                <img src="phone-icon.svg" alt="Contact" class="icon">
+                Contact
+            </a>
+        </footer>
+        <div class="floating-widget">
+            <img src="cloud-icon.svg" alt="Weather" class="icon">
+            <div>
+                <div class="temperature">25°C</div>
+                <div class="weather-condition">Sunny</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const captureButton = document.getElementById('captureButton');
+        const capturedImage = document.getElementById('capturedImage');
+        const downloadButton = document.getElementById('downloadButton');
+        const uploadImage = document.getElementById('uploadImage');
+
+        // Function to start the camera
+        function startCamera() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    video.srcObject = stream;
+                })
+                .catch(err => {
+                    console.error("Error accessing the camera: " + err);
+                });
+        }
+
+        // Capture the image from the video feed
+        captureButton.addEventListener('click', () => {
+            const context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Convert canvas image to data URL and display it
+            const imageDataUrl = canvas.toDataURL('image/png');
+            capturedImage.src = imageDataUrl;
+            capturedImage.style.display = 'block';
+
+            // Show the download button and set the download link
+            downloadButton.href = imageDataUrl;
+            downloadButton.style.display = 'inline-block';
+        });
+
+        // Handle image upload
+        uploadImage.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    capturedImage.src = e.target.result;
+                    capturedImage.style.display = 'block';
+                    downloadButton.href = e.target.result;
+                    downloadButton.style.display = 'inline-block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Start the camera when the page loads
+        window.addEventListener('load', startCamera);
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
+

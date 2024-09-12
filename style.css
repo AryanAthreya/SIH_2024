@@ -1,0 +1,268 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: transparent;
+    background-color: #dafff9; /* Light green background */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    background-color: #ffffff;
+    /* box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.nav a, .button {
+    margin-left: 1rem;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: medium;
+}
+
+.button {
+    padding: 0.5rem 1rem;
+    background-color: #B4E380;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button.icon-button {
+    background-color: transparent;
+    padding: 0.5rem;
+}
+
+.hero {
+    background: linear-gradient(to bottom, #46c5ff, #B4E380);
+    color: #ffffff;
+    padding: 2rem;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 600px;
+    margin: auto;
+}
+
+.features {
+    padding: 2rem;
+    text-align: center;
+}
+
+.cards {
+    display: grid;
+    gap: 1rem;
+}
+
+.card {
+    background-color: #48CFCB;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: left;
+}
+
+.card-img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.card-content {
+    margin-top: 1rem;
+}
+
+.outline-button {
+    border: 1px solid #007BFF;
+    color: #5e5e5e;
+    background-color: transparent;
+}
+
+.footer {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* .footer-link {
+    text-decoration: none;
+    color: #333;
+} */
+
+.floating-widget {
+    position: fixed;
+    top: 78%;
+    right: 1rem;
+    transform: translateY(-50%);
+    background-color: #ffffff;
+    /* padding: 1rem; */
+    border-radius: 8px;
+    /* box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: move;
+}
+.container1 {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+h2 {
+    text-align: center;
+}
+select, button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.recommendation {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #e7f5e3;
+    border-radius: 8px;
+    display: none;
+}
+
+/* style from html */
+        /* Add the styles directly here or in your styles.css file */
+        .camera-container {
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+        }
+
+        video, canvas, img {
+            width: 100%;
+            border-radius: 10px;
+            margin-top: 10px;
+            display: block;
+        }
+
+        canvas, img {
+            display: none;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #88c0fc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #82beff;
+        }
+
+        #downloadButton {
+            display: none;
+        }
+
+        input[type="file"] {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+/* Section styling */
+.section {
+    padding: 100px 20px;
+    min-height: 100vh;
+    margin-top: 60px;
+  }
+  
+  #about {
+    background-color: #48CFCB;
+  }
+  
+  #services {
+    background-color: #48CFCB;
+  }
+  
+  #contact {
+    background-color: #48CFCB;
+  }
+  
+  /* Small screens styling */
+  /* @media (max-width: 600px) {
+    nav ul {
+      flex-direction: column;
+      gap: 0;
+    }
+  } */
+  
+  /* Styling for the navbar */
+nav {
+    background-color: #56dba8;
+    /* position: fixed; */
+    width: 100%;
+    padding: 0%;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  nav ul li {
+    display: inline;
+  }
+  
+  nav ul li a {
+    color: white;
+    padding: 14px 20px;
+    text-decoration: none;
+    display: inline-block;
+  }
+  
+  nav ul li a:hover {
+    background-color: #45a049;
+  }
+
+.logo{
+    justify-content: center;
+    height: 4rem;
+}  

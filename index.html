@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Disease Predictor</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- <style>
+        /* Add the styles directly here or in your styles.css file */
+        .camera-container {
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+        }
+
+        video, canvas, img {
+            width: 100%;
+            border-radius: 10px;
+            margin-top: 10px;
+            display: block;
+        }
+
+        canvas, img {
+            display: none;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #downloadButton {
+            display: none;
+        }
+
+        input[type="file"] {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+    </style> -->
+</head>
+<body>
+    <div class="container">
+        <a href="#" class="logo">
+            <img src="icons8-plant-100 (1).png" alt="Logo" class="icon">
+            <span>Crop Disease Predictor</span>
+        </a>
+        <header class="header">
+            <!-- Navigation Bar -->
+  <nav>
+    <ul>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#services" class="nav-link">Services</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+  </nav>
+            <!-- <nav class="nav">
+                <a href="#">Home</a>
+                <a href="#">Predict</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </nav> -->
+        </header>
+        <main>
+            <section class="hero">
+                <div class="hero-content">
+                    <h1>Protect Your Crops</h1>
+                    <p>Detect and prevent crop diseases with our AI-powered solution.</p>
+                    <a href="#" class="button hero-button">
+                        <img src="camera-icon.svg" alt="Analyze Image" class="icon">
+                        Analyze Image
+                    </a>
+                </div>
+            </section>
+            
+            <!-- Camera and Image Upload Section && ML model-->
+            <section class="camera-container">
+                <h2>Take or Upload Photo</h2>
+                <video id="video" autoplay playsinline></video>
+                <canvas id="canvas"></canvas>
+                <img id="capturedImage" alt="Captured Image">
+                <br>
+                <input type="file" accept="image/*" id="uploadImage">
+                <div>Teachable Machine Image Model</div>
+<button type="button" onclick="init()">Start</button>
+<div id="webcam-container"></div>
+<div id="label-container"></div>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+<script type="text/javascript">
+    // More API functions here:
+    // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
+
+    // the link to your model provided by Teachable Machine export panel
+    const URL = "https://teachablemachine.withgoogle.com/models/hr10GfD0I/";
+
+    let model, webcam, labelContainer, maxPredictions;
+
+    // Load the image model and setup the webcam
+    async function init() {
+        const modelURL = URL + "model.json";
+        const metadataURL = URL + "metadata.json";
+
+        // load the model and metadata
+        // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+        // or files from your local hard drive
+        // Note: the pose library adds "tmImage" object to your window (window.tmImage)
+        model = await tmImage.load(modelURL, metadataURL);
+        maxPredictions = model.getTotalClasses();
+
+        // Convenience function to setup a webcam
+        const flip = true; // whether to flip the webcam
+        webcam = new tmImage.Webcam(200, 200, flip); // width, height, flip
+        await webcam.setup(); // request access to the webcam
+        await webcam.play();
+        window.requestAnimationFrame(loop);
+
+        // append elements to the DOM
+        document.getElementById("webcam-container").appendChild(webcam.canvas);
+        labelContainer = document.getElementById("label-container");
+        for (let i = 0; i < maxPredictions; i++) { // and class labels
+            labelContainer.appendChild(document.createElement("div"));
+        }
+    }
+
+    async function loop() {
+        webcam.update(); // update the webcam frame
+        await predict();
+        window.requestAnimationFrame(loop);
+    }
+
+    // run the webcam image through the image model
+    async function predict() {
+        // predict can take in an image, video or canvas html element
+        const prediction = await model.predict(webcam.canvas);
+        for (let i = 0; i < maxPredictions; i++) {
+            const classPrediction =
+                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+            labelContainer.childNodes[i].innerHTML = classPrediction;
+        }
+    }
+</script>
+
+                <button id="captureButton">Capture Image</button>
+                <a id="downloadButton" download="captured_image.png">Download Image</a>
+            </section>
+            
+            <section class="features">
+                <h2>Crop Disease Prediction</h2>
+                <p>Our AI-driven system analyzes crop images and environmental data to predict potential disease outbreaks. Get actionable insights and treatment recommendations to protect your crops.</p>
+                <div class="cards">
+
+                    <div id="about" class="section">
+                        <img src="placeholder.svg" alt="Crop Image" class="card-img">
+                        <div class="card-content">
+                            <h4>Detect Crop Diseases</h4>
+                            <p>Upload an image of your crop and our system will analyze it for potential diseases.</p>
+                            <button class="button outline-button">Analyze</button>
+                        </div>
+                    </div>
+
+                    <div id="services" class="section">
+                        <img src="placeholder.svg" alt="Environmental Data" class="card-img">
+                        <div class="card-content">
+                            <h4>Monitor Environmental Factors</h4>
+                            <p>Our system tracks weather, soil, and other environmental data to predict disease outbreaks.</p>
+                            <button class="button outline-button">View Data</button>
+                        </div>
+                    </div>
+
+                    <div id="contact" class="section" style="margin-bottom: 4rem ;height: 400px;scroll-margin-bottom: 0;">
+                        <img src="placeholder.svg" alt="Treatment Recommendations" class="card-img" style="margin-bottom: 20px;">
+                        <div class="card-content">
+                            <h4>Get Treatment Recommendations</h4>
+                            <div class="container">
+                                <h2>Crop Farming Recommendations</h2>
+                            
+                                <label for="cropSelect">Select a Crop/Plant:</label>
+                                <select id="cropSelect">
+                                    <option value="">--Choose a crop--</option>
+                                    <option value="wheat">Wheat</option>
+                                    <option value="rice">Rice</option>
+                                    <option value="corn">Corn</option>
+                                    <option value="soybeans">Soybeans</option>
+                                    <option value="potatoes">Potatoes</option>
+                                    <option value="tomatoes">Tomatoes</option>
+        <option value="carrots">Carrots</option>
+        <option value="cucumbers">Cucumbers</option>
+        <option value="lettuce">Lettuce</option>
+        <option value="peas">Peas</option>
+        <option value="beans">Beans</option>
+        <option value="sunflowers">Sunflowers</option>
+                                </select>
+                            
+                                <button onclick="showRecommendation()">Get Recommendation</button>
+                            
+                                <div id="recommendation" class="recommendation">
+                                    <h3>Recommendation</h3>
+                                    <p id="recommendationText"></p>
+                                </div>
+                            </div>
+                            <!-- <p>Our system provides tailored treatment recommendations to help you mitigate crop disease risks.</p>
+                            <button class="button outline-button">View Recommendations</button>
+                        </div> -->
+                    </div>
+                </div>
+            </section>
+        </main>
+        <div class="floating-widget">
+            <div id="weatherapi-weather-widget-4"></div><script type='text/javascript' src='https://www.weatherapi.com/weather/widget.ashx?loc=1126581&wid=4&tu=1&div=weatherapi-weather-widget-4' async></script><noscript><a href="https://www.weatherapi.com/weather/q/new-delhi-1126581" alt="Hour by hour New Delhi weather">10 day hour by hour New Delhi weather</a></noscript>
+            <!-- <img src="icons8-plant-100 (1).png" alt="Weather" class="icon">
+            <div>
+                <div class="temperature">24°C</div>
+                <div class="weather-condition">Sunny</div>
+            </div> -->
+        </div>
+    </div>
+    <!-- <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const captureButton = document.getElementById('captureButton');
+        const capturedImage = document.getElementById('capturedImage');
+        const downloadButton = document.getElementById('downloadButton');
+        const uploadImage = document.getElementById('uploadImage');
+
+        // Function to start the camera
+        function startCamera() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    video.srcObject = stream;
+                })
+                .catch(err => {
+                    console.error("Error accessing the camera: " + err);
+                });
+        }
+
+        // Capture the image from the video feed
+        captureButton.addEventListener('click', () => {
+            const context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Convert canvas image to data URL and display it
+            const imageDataUrl = canvas.toDataURL('image/png');
+            capturedImage.src = imageDataUrl;
+            capturedImage.style.display = 'block';
+
+            // Show the download button and set the download link
+            downloadButton.href = imageDataUrl;
+            downloadButton.style.display = 'inline-block';
+        });
+
+        // Handle image upload
+        uploadImage.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    capturedImage.src = e.target.result;
+                    capturedImage.style.display = 'block';
+                    downloadButton.href = e.target.result;
+                    downloadButton.style.display = 'inline-block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Start the camera when the page loads
+        window.addEventListener('load', startCamera);
+    </script> -->
+    <script src="script.js"></script>
+</body>
+</html>
+
